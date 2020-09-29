@@ -12,9 +12,22 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import os
+import sys
+import sphinx_rtd_theme
+from os import environ
+
+sys.path.insert(0, os.path.abspath('.'))
+
+rtd_tag = '2.0'
+if environ.get('READTHEDOCS_VERSION') is not None:
+    rtd_tag = os.environ['READTHEDOCS_VERSION']
+
+placeholder_replacements = {
+    "{BRANCH}" : "2.0",
+    "{BRANCH_DOC}" : "latest", # Used to target the correct ReadTheDocs distribution version
+    "{RTD_TAG}": rtd_tag
+}
 
 
 # -- Project information -----------------------------------------------------
@@ -24,9 +37,9 @@ copyright = u'2020, FabDep'
 author = u'FabDep'
 
 # The short X.Y version
-version = u'2.0'
+version = u'master'
 # The full version, including alpha/beta/rc tags
-release = u'2.0'
+release = u'master'
 
 
 # -- General configuration ---------------------------------------------------
@@ -39,9 +52,13 @@ release = u'2.0'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-    'sphinx.ext.autodoc',
-]
+extensions = ['sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.imgmath',
+    'sphinx.ext.ifconfig',
+    'sphinx.ext.viewcode']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -50,7 +67,7 @@ templates_path = ['_templates']
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ['.rst', '.md']
 
 # The master toctree document.
 master_doc = 'index'
